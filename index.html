@@ -5,7 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fun Facts Generator</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #fact {
+            margin: 20px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -14,6 +52,41 @@
         <button onclick="getRandomFact()">New Fun Fact</button>
         <button onclick="shareFact()">Share Fact</button>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        const facts = [
+            "Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old!",
+            "Bananas are berries, but strawberries aren't!",
+            "A day on Venus is longer than its year!",
+            "Octopuses have three hearts!",
+            "Sloths can hold their breath for up to 40 minutes underwater!",
+            "Cows have best friends and get stressed when separated!",
+            "The first oranges weren't orange!",
+            "A flamingo's head can only bend when its upside down!",
+            "Penguins have knees!",
+            "A group of flamingos is called a 'flamboyance'!"
+        ];
+
+        function getRandomFact() {
+            const factElement = document.getElementById('fact');
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            factElement.textContent = facts[randomIndex];
+        }
+
+        function shareFact() {
+            const factText = document.getElementById('fact').textContent;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Fun Fact!',
+                    text: factText,
+                    url: window.location.href
+                })
+                .catch((error) => console.log('Error sharing:', error));
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                alert("Copy this fact:\n\n" + factText);
+            }
+        }
+    </script>
 </body>
 </html>
